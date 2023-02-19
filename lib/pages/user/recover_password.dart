@@ -1,3 +1,4 @@
+import 'package:appflutter/pages/user/register.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:appflutter/config.dart';
@@ -83,6 +84,41 @@ class _RecoverPasswordViewState extends State<RecoverPasswordView> {
               },
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: TextButton(
+                  child: const Text(
+                    'Log in',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              const SizedBox(
+                width: 30,
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: TextButton(
+                  child: const Text(
+                    'Register',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  onPressed: () {
+                    Navigator.popAndPushNamed(
+                      context,
+                      '/register',
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -99,8 +135,6 @@ class _RecoverPasswordViewState extends State<RecoverPasswordView> {
       headers: headers,
       body: jsonEncode(email),
     );
-
-    devtools.log(res.statusCode.toString());
 
     if (res.statusCode != 200) {
       throw Exception("error");

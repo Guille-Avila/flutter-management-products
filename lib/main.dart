@@ -236,8 +236,6 @@ class _LoginViewState extends State<LoginView> {
         username: nameController.text,
         password: passwordController.text,
         token: token);
-    // ignore: use_build_context_synchronously
-    //Navigator.push(context,MaterialPageRoute(builder: (context) => Home()),);
 
     // ignore: use_build_context_synchronously
     Navigator.pushNamed(
