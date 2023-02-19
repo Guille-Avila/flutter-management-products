@@ -33,12 +33,8 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: (settings) {
           final Uri uri = Uri.parse(settings.name ?? '/');
 
-          final data = uri.path;
           final pk = uri.queryParameters["pk"];
           final token = uri.queryParameters["token"];
-          devtools.log(data.toString());
-          devtools.log(pk.toString());
-          devtools.log(token.toString());
 
           if (uri.path == "/restart-password/") {
             return MaterialPageRoute(
@@ -51,7 +47,6 @@ class MyApp extends StatelessWidget {
           return null;
         },
         home: const Scaffold(
-          //appBar: AppBar(title: const Text(_title)),
           body: LoginView(),
         ),
         routes: {
@@ -78,12 +73,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-  //final urllogin = Uri.parse("http://192.168.1.5:8000/api/login/");
-  final urllogin = Uri.http(Config.apiURL, Config.loginAPI);
-  //final urlobtenertoken = Uri.parse("http://192.168.1.5:8000/api/api-token-auth/");
-  final urlobtenertoken = Uri.http(Config.apiURL, Config.obtenertokenAPI);
-  final headers = {"Content-Type": "application/json;charset=UTF-8"};
 
   @override
   Widget build(BuildContext context) {
@@ -194,14 +183,22 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void showSnackbar(String msg) {
-    final snack = SnackBar(content: Text(msg));
+    final snack = SnackBar(
+      content: Text(msg),
+      backgroundColor: Colors.blue,
+    );
     ScaffoldMessenger.of(context).showSnackBar(snack);
   }
 
   Future<void> login() async {
+    //final urllogin = Uri.parse("http://localhost:port/api/login/");
+    final urllogin = Uri.http(Config.apiURL, Config.loginAPI);
+    final urlobtenertoken = Uri.http(Config.apiURL, Config.obtenertokenAPI);
+    final headers = {"Content-Type": "application/json;charset=UTF-8"};
+
     if (nameController.text.isEmpty || passwordController.text.isEmpty) {
       showSnackbar(
-          "${nameController.text.isEmpty ? "-User " : ""} ${passwordController.text.isEmpty ? "- Contraseña " : ""} requerido");
+          "${nameController.text.isEmpty ? "User" : ""} ${nameController.text.isEmpty & passwordController.text.isEmpty ? "and " : ""}${passwordController.text.isEmpty ? "Contraseña " : ""}required");
       return;
     }
 
@@ -210,18 +207,15 @@ class _LoginViewState extends State<LoginView> {
       "password": passwordController.text
     };
 
-    devtools.log(datosdelposibleusuario.toString());
     final res = await http.post(urllogin,
         headers: headers, body: jsonEncode(datosdelposibleusuario));
-    //final data = Map.from(jsonDecode(res.body));
-    devtools.log(res.toString());
-    devtools.log('Cuarta parte del login, despues de la solicitud');
+
     if (res.statusCode == 400) {
       showSnackbar("error");
       return;
     }
     if (res.statusCode != 200) {
-      showSnackbar("Ups ha habido un al obtener usuario y contraseña ");
+      showSnackbar("Ups! intentalo de nuevo.");
     }
 
     final res2 = await http.post(urlobtenertoken,
@@ -238,7 +232,7 @@ class _LoginViewState extends State<LoginView> {
     }
 
     final token = data2["token"];
-    final user = Usuario(
+    Usuario(
         username: nameController.text,
         password: passwordController.text,
         token: token);
