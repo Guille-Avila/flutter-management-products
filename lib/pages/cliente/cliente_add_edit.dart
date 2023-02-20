@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:appflutter/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:appflutter/models/cliente_model.dart';
 import 'package:appflutter/services/api_cliente.dart';
@@ -202,9 +202,17 @@ class _ClienteAddEditState extends State<ClienteAddEdit> {
                       });
 
                       if (response) {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          '/list-cliente',
+                        // Navigator.pushNamedAndRemoveUntil(
+                        //   context,
+                        //   '/list-cliente',
+                        //   (route) => false,
+                        // );
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => Menu(
+                              menuValue: 1,
+                            ),
+                          ),
                           (route) => false,
                         );
                       } else {

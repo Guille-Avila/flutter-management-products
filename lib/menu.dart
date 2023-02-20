@@ -6,12 +6,15 @@ import 'package:appflutter/pages/producto/producto_list.dart';
 import 'package:appflutter/pages/inicio/inicio.dart';
 
 class Menu extends StatefulWidget {
+  int? menuValue;
+  Menu({super.key, this.menuValue});
   @override
   MenuState createState() => MenuState();
 }
 
 class MenuState extends State<Menu> {
-  int _selectDrawerItem = 0;
+  late int _selectDrawerItem = widget.menuValue ?? 0;
+
   getDrawerItemWidget(int pos) {
     switch (pos) {
       case 0:
@@ -34,14 +37,14 @@ class MenuState extends State<Menu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Empresa XYZ"),
+        title: const Text("Business"),
       ),
       drawer: Drawer(
         child: ListView(
-          children: <Widget>[
+          children: [
             const UserAccountsDrawerHeader(
-              accountName: Text('Empresa XYZ'),
-              accountEmail: Text('contaco@xyz.com'),
+              accountName: Text('Name Business'),
+              accountEmail: Text('email_business@email.com'),
               currentAccountPicture: CircleAvatar(
                 backgroundImage: AssetImage('assets/images/pngegg.png'),
               ),

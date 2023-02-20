@@ -4,6 +4,8 @@ import 'package:appflutter/pages/cliente/cliente_item.dart';
 import 'package:appflutter/services/api_cliente.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
+import 'cliente_add_edit.dart';
+
 class ClientesList extends StatefulWidget {
   const ClientesList({Key? key}) : super(key: key);
 
@@ -23,11 +25,6 @@ class _ClientesListState extends State<ClientesList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*
-      appBar: AppBar(
-        title: const Text('NodeJS - CRUD'),
-        elevation: 0,
-      ),*/
       backgroundColor: Colors.grey[200],
       body: ProgressHUD(
         inAsyncCall: isApiCallProcess,
@@ -71,9 +68,10 @@ class _ClientesListState extends State<ClientesList> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(
+                        Navigator.push(
                           context,
-                          '/add-cliente',
+                          MaterialPageRoute(
+                              builder: (context) => const ClienteAddEdit()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -83,7 +81,7 @@ class _ClientesListState extends State<ClientesList> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50))),
                       child: const Text(
-                        'Add Cliente',
+                        'Add Client',
                         style: TextStyle(fontSize: 15, color: Colors.black),
                       )),
                   ElevatedButton(
