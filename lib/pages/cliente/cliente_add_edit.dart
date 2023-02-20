@@ -202,11 +202,6 @@ class _ClienteAddEditState extends State<ClienteAddEdit> {
                       });
 
                       if (response) {
-                        // Navigator.pushNamedAndRemoveUntil(
-                        //   context,
-                        //   '/list-cliente',
-                        //   (route) => false,
-                        // );
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                             builder: (context) => Menu(

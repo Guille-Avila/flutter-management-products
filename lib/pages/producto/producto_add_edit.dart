@@ -9,6 +9,7 @@ import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 
 import '../../config.dart';
+import '../../menu.dart';
 
 class ProductoAddEdit extends StatefulWidget {
   const ProductoAddEdit({Key? key}) : super(key: key);
@@ -174,9 +175,12 @@ class _ProductoAddEditState extends State<ProductoAddEdit> {
                       });
 
                       if (response) {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          '/list-producto',
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => Menu(
+                              menuValue: 2,
+                            ),
+                          ),
                           (route) => false,
                         );
                       } else {

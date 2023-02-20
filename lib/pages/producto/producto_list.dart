@@ -13,7 +13,6 @@ class ProductosList extends StatefulWidget {
 }
 
 class _ProductosListState extends State<ProductosList> {
-  // List<ProductModel> products = List<ProductModel>.empty(growable: true);
   bool isApiCallProcess = false;
   @override
   void initState() {
@@ -23,11 +22,6 @@ class _ProductosListState extends State<ProductosList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*
-      appBar: AppBar(
-        title: const Text('Django - CRUD'),
-        elevation: 0,
-      ),*/
       backgroundColor: Colors.grey[200],
       body: ProgressHUD(
         inAsyncCall: isApiCallProcess,
@@ -92,7 +86,6 @@ class _ProductosListState extends State<ProductosList> {
                           context,
                           '/home',
                         );
-                        //Navigator.push(context,MaterialPageRoute(builder: (context) => Home()),                        );
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.lightBlueAccent,
@@ -107,9 +100,6 @@ class _ProductosListState extends State<ProductosList> {
                 ],
                 mainAxisAlignment: MainAxisAlignment.center,
               ),
-
-              //Navigator.pushNamed(context,'/add-product',);
-              //Add Product
               ListView.builder(
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
