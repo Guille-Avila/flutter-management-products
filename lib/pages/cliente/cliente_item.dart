@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/cliente_model.dart';
+import 'cliente_individual_data.dart';
 
 class ClienteItem extends StatelessWidget {
   final ClienteModel? model;
@@ -34,14 +35,14 @@ class ClienteItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 120,
+          width: 110,
           alignment: Alignment.center,
           margin: const EdgeInsets.all(10),
           child: Image.network(
             (model!.foto == null || model!.foto == "")
                 ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
                 : model!.foto!,
-            height: 70,
+            height: 80,
             fit: BoxFit.scaleDown,
           ),
         ),
@@ -51,19 +52,41 @@ class ClienteItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "${model!.nombre}  ${model!.apellido}",
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+              const SizedBox(
+                height: 5,
+              ),
+              GestureDetector(
+                child: Text(
+                  "${model!.nombre} ${model!.apellido}",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
                 ),
+                onTap: () {
+                  //individual data view client
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ClienteIndividualData(model!)),
+                  );
+                },
               ),
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                " ✉ ${model!.email}",
-                style: const TextStyle(color: Colors.black),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.mail_outlined,
+                    size: 20,
+                  ),
+                  Text(
+                    " ${model!.email}",
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 10,
@@ -84,13 +107,16 @@ class ClienteItem extends StatelessWidget {
                         );
                       },
                     ),
+                    const SizedBox(
+                      width: 15,
+                    ),
                     GestureDetector(
                       child: const Icon(
                         Icons.delete,
                         color: Colors.red,
                       ),
                       onTap: () {
-                        onDelete!(model);
+                        _showAlert(context);
                       },
                     ),
                   ],
@@ -100,6 +126,33 @@ class ClienteItem extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  void _showAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Delete costumer"),
+          content: Text("Are you sure to delete ${model!.nombre}?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("No"),
+            ),
+            TextButton(
+              onPressed: () {
+                onDelete!(model);
+                Navigator.pop(context);
+              },
+              child: const Text("Yes"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

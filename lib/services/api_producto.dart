@@ -23,8 +23,6 @@ class APIProducto {
 
     if (response.statusCode == 200) {
       return compute(productosFromJson, response.body);
-
-      //return true;
     } else {
       return null;
     }
@@ -45,16 +43,10 @@ class APIProducto {
 
     var requestMethod = isEditMode ? "PUT" : "POST";
 
-    /*Map<String, String> headers = {
-      "Content-Type": "application/json",
-      "Authorization": "token 6c7e9f684c68adf057008ce8a0f4dc11fae3c0d4",
-    };*/
-
     var request = http.MultipartRequest(requestMethod, url);
     request.fields["productoName"] = model.productoName!;
     request.fields["productoPrice"] =
         double.parse(model.productoPrice!).toStringAsFixed(2);
-    //request.headers["Authorization"] = "token 6c7e9f684c68adf057008ce8a0f4dc11fae3c0d4";
 
     if (model.productoImage != null && isFileSelected) {
       http.MultipartFile multipartFile = await http.MultipartFile.fromPath(

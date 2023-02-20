@@ -26,6 +26,17 @@ class MenuState extends State<Menu> {
     }
   }
 
+  getTitle(int pos) {
+    switch (pos) {
+      case 0:
+        return const Text("Home");
+      case 1:
+        return const Text("Costumers");
+      case 2:
+        return const Text("Products");
+    }
+  }
+
   _onSelectItem(int pos) {
     Navigator.of(context).pop();
     setState(() {
@@ -37,7 +48,7 @@ class MenuState extends State<Menu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Business"),
+        title: getTitle(_selectDrawerItem),
       ),
       drawer: Drawer(
         child: ListView(
@@ -84,7 +95,7 @@ class MenuState extends State<Menu> {
             ),
             const Divider(),
             ListTile(
-              title: const Text('Cerra Sessión'),
+              title: const Text('Cerrar Sessión'),
               leading: const Icon(Icons.touch_app_outlined),
               selected: (3 == _selectDrawerItem),
               onTap: () {

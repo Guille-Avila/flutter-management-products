@@ -15,7 +15,6 @@ class ClientesList extends StatefulWidget {
 }
 
 class _ClientesListState extends State<ClientesList> {
-  // List<ClienteModel> clientes = List<ClienteModel>.empty(growable: true);
   bool isApiCallProcess = false;
   @override
   void initState() {
@@ -55,7 +54,7 @@ class _ClientesListState extends State<ClientesList> {
 
   Widget clienteList(clientes) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,51 +62,28 @@ class _ClientesListState extends State<ClientesList> {
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                // ignore: sort_child_properties_last
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ClienteAddEdit()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 30),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50))),
-                      child: const Text(
-                        'Add Client',
-                        style: TextStyle(fontSize: 15, color: Colors.black),
-                      )),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/home',
-                        );
-                        //Navigator.push(context,MaterialPageRoute(builder: (context) => Home()),                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.lightBlueAccent,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 30),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50))),
-                      child: const Text(
-                        'Menu',
-                        style: TextStyle(fontSize: 15, color: Colors.black),
-                      )),
-                ],
-                mainAxisAlignment: MainAxisAlignment.center,
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ClienteAddEdit()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 30),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50))),
+                child: const Text(
+                  'Add Client',
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
               ),
-
-              //   child: const Text('Add Cliente'),
-              //Navigator.pushNamed(context,'/add-cliente',);
+              const SizedBox(
+                height: 6,
+              ),
               ListView.builder(
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),

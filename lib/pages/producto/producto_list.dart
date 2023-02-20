@@ -81,22 +81,23 @@ class _ProductosListState extends State<ProductosList> {
                         style: TextStyle(fontSize: 15, color: Colors.black),
                       )),
                   ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/home',
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.lightBlueAccent,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 30),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50))),
-                      child: const Text(
-                        'Menu',
-                        style: TextStyle(fontSize: 15, color: Colors.black),
-                      )),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/home',
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.lightBlueAccent,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 30),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50))),
+                    child: const Text(
+                      'Menu',
+                      style: TextStyle(fontSize: 15, color: Colors.black),
+                    ),
+                  ),
                 ],
                 mainAxisAlignment: MainAxisAlignment.center,
               ),

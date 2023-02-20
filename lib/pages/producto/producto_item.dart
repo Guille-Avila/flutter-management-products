@@ -29,6 +29,11 @@ class ProductoItem extends StatelessWidget {
   }
 
   Widget cartItem(context) {
+    String price =
+        double.parse(model!.productoPrice!).toStringAsFixed(0).replaceAllMapped(
+              RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+              (Match match) => '${match[1]},',
+            );
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +67,7 @@ class ProductoItem extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "${model!.productoPrice}",
+                "\$ $price",
                 style: const TextStyle(color: Colors.black),
               ),
               const SizedBox(
@@ -90,7 +95,7 @@ class ProductoItem extends StatelessWidget {
                         color: Colors.red,
                       ),
                       onTap: () {
-                        onDelete!(model);
+                        _showAlert(context);
                       },
                     ),
                   ],
@@ -100,6 +105,33 @@ class ProductoItem extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  void _showAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Delete costumer"),
+          content: Text("Are you sure to delete ${model!.productoName}?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("No"),
+            ),
+            TextButton(
+              onPressed: () {
+                onDelete!(model);
+                Navigator.pop(context);
+              },
+              child: const Text("Yes"),
+            ),
+          ],
+        );
+      },
     );
   }
 }
