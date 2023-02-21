@@ -16,64 +16,152 @@ class ClienteIndividualData extends StatefulWidget {
 }
 
 class _ClienteIndividualDataState extends State<ClienteIndividualData> {
+  ClienteModel? costumer;
+
+  @override
+  void initState() {
+    super.initState();
+    costumer = widget.model;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Stack & Positioned Widget"),
+        title: const Text("Costumer"),
         centerTitle: true,
-        backgroundColor: Colors.black38,
       ),
-      backgroundColor: Colors.grey.shade800,
       body: Center(
         child: Container(
-          padding: const EdgeInsets.all(16),
-          constraints: const BoxConstraints.expand(
-            width: 330,
-            height: 450,
-          ),
-          decoration: const BoxDecoration(
-            boxShadow: [
+          width: MediaQuery.of(context).size.width * 0.90,
+          height: MediaQuery.of(context).size.width * 1.5,
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: const [
               BoxShadow(
-                  color: Colors.white24,
-                  offset: Offset(0, 2),
-                  spreadRadius: 5,
-                  blurRadius: 10),
+                  color: Colors.grey,
+                  spreadRadius: 1,
+                  blurRadius: 10,
+                  offset: Offset(0, 3))
             ],
-            image: DecorationImage(
-              image: AssetImage('images/card1.jpg'),
-              fit: BoxFit.cover,
-            ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.0),
-            ),
           ),
-          //CHILD STACK WIDGET
-          child: Stack(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Editor's Choice",
-                  style: TextStyle(color: Colors.white70, fontSize: 18)),
-              Positioned(
-                top: 20.0,
-                child: Text("The Art of Making a Coffee",
-                    style: TextStyle(color: Colors.white, fontSize: 22)),
+              Container(
+                padding: const EdgeInsets.only(bottom: 15),
+                width: 500,
+                alignment: Alignment.center,
+                margin: const EdgeInsets.all(10),
+                child: Image.network(
+                  costumer?.foto ??
+                      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
+                  height: 200,
+                  fit: BoxFit.scaleDown,
+                ),
               ),
-              Positioned(
-                right: 0,
-                bottom: 20,
-                child: Text("Learn to make the perfect Coffee",
-                    style: TextStyle(color: Colors.white, fontSize: 16)),
+              Text(
+                "${costumer!.nombre?.toUpperCase()} ${costumer!.apellido?.toUpperCase()}",
+                style: const TextStyle(fontSize: 30),
               ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Text("Coding with Tea",
-                    style: TextStyle(color: Colors.white, fontSize: 16)),
+              const SizedBox(
+                height: 8,
               ),
+              Text(
+                "${costumer!.email}",
+                style: const TextStyle(fontSize: 18),
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 10,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        '/edit-cliente',
+                        arguments: {
+                          'model': costumer,
+                        },
+                      );
+                    },
+                    child: const Text(
+                      "Edit",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 10,
+                      ),
+                      backgroundColor: Color.fromARGB(255, 243, 97, 87),
+                    ),
+                    onPressed: () {
+                      _showAlert(context);
+                    },
+                    child: const Text(
+                      "Delete",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 12),
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      "Costumers",
+                      style: TextStyle(fontSize: 16),
+                    )),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _showAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Delete costumer"),
+          content: Text("Are you sure to delete ${costumer!.nombre}?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("No"),
+            ),
+            TextButton(
+              onPressed: () {
+                //onDelete!(costumer);
+
+                Navigator.pop(context);
+              },
+              child: const Text("Yes"),
+            ),
+          ],
+        );
+      },
     );
   }
 }
