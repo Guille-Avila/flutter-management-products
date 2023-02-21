@@ -27,28 +27,6 @@ class _ClienteAddEditState extends State<ClienteAddEdit> {
   bool isImageSelected = false;
 
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Form Cliente'),
-          elevation: 0,
-        ),
-        backgroundColor: Colors.grey[200],
-        body: ProgressHUD(
-          inAsyncCall: isApiCallProcess,
-          opacity: 0.3,
-          key: UniqueKey(),
-          child: Form(
-            key: globalFormKey,
-            child: clienteForm(),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
   void initState() {
     super.initState();
     clienteModel = ClienteModel();
@@ -63,12 +41,37 @@ class _ClienteAddEditState extends State<ClienteAddEdit> {
     });
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Form Cliente'),
+          elevation: 0,
+        ),
+        backgroundColor: Colors.grey[200],
+        body: ProgressHUD(
+          inAsyncCall: isApiCallProcess,
+          opacity: 0.3,
+          key: UniqueKey(),
+          child: Form(
+            key: globalFormKey,
+            child: Container(
+              padding: const EdgeInsets.only(top: 85),
+              child: clienteForm(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget clienteForm() {
     return SingleChildScrollView(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           Padding(
             padding: const EdgeInsets.only(
               bottom: 10,
@@ -76,7 +79,6 @@ class _ClienteAddEditState extends State<ClienteAddEdit> {
             ),
             child: FormHelper.inputFieldWidget(
               context,
-              //const Icon(Icons.person),
               "Cliente Name",
               "Nombre del Cliente",
               (onValidateVal) {
@@ -117,7 +119,6 @@ class _ClienteAddEditState extends State<ClienteAddEdit> {
                 return null;
               },
               (onSavedVal) => {
-                //clienteModel!.clienteApellido = int.parse(onSavedVal),
                 clienteModel!.apellido = onSavedVal,
               },
               initialValue: clienteModel!.apellido == null
@@ -131,6 +132,34 @@ class _ClienteAddEditState extends State<ClienteAddEdit> {
               borderRadius: 10,
               showPrefixIcon: false,
               suffixIcon: const Icon(Icons.person),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 10,
+              top: 10,
+            ),
+            child: FormHelper.inputFieldWidget(
+              context,
+              "Phone costumer",
+              "Phone Costumer",
+              (onValidateVal) {
+                return null;
+              },
+              (onSavedVal) => {
+                clienteModel!.phone = onSavedVal,
+              },
+              initialValue: clienteModel!.phone == null
+                  ? ""
+                  : clienteModel!.phone.toString(),
+              obscureText: false,
+              borderFocusColor: Colors.black,
+              borderColor: Colors.black,
+              textColor: Colors.black,
+              hintColor: Colors.black.withOpacity(0.7),
+              borderRadius: 10,
+              showPrefixIcon: false,
+              suffixIcon: const Icon(Icons.phone_android),
             ),
           ),
           Padding(
@@ -170,7 +199,6 @@ class _ClienteAddEditState extends State<ClienteAddEdit> {
             (file) => {
               setState(
                 () {
-                  //model.clientePic = file.path;
                   clienteModel!.foto = file.path;
                   isImageSelected = true;
                 },
@@ -185,8 +213,6 @@ class _ClienteAddEditState extends State<ClienteAddEdit> {
               "Save",
               () {
                 if (validateAndSave()) {
-                  //print(clienteModel!.toJson());
-
                   setState(() {
                     isApiCallProcess = true;
                   });

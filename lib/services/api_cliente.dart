@@ -9,7 +9,6 @@ class APICliente {
   static Future<List<ClienteModel>?> getClientes() async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
-      //'Authorization': 'token c722b18acd37ccb20cc46fde034745d45bc51bc4',
     };
 
     var url = Uri.http(
@@ -46,17 +45,11 @@ class APICliente {
 
     var requestMethod = isEditMode ? "PUT" : "POST";
 
-    /*Map<String, String> headers = {
-      "Content-Type": "application/json",
-      "Authorization": "token 6c7e9f684c68adf057008ce8a0f4dc11fae3c0d4",
-    };*/
-
     var request = http.MultipartRequest(requestMethod, url);
     request.fields["nombre"] = model.nombre!;
     request.fields["apellido"] = model.apellido!;
     request.fields["email"] = model.email!;
-
-    //request.headers["Authorization"] = "token 6c7e9f684c68adf057008ce8a0f4dc11fae3c0d4";
+    request.fields["phone"] = model.phone ?? "";
 
     if (model.foto != null && isFileSelected) {
       http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
@@ -88,7 +81,7 @@ class APICliente {
       headers: requestHeaders,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 204) {
       return true;
     } else {
       return false;

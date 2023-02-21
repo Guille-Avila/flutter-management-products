@@ -38,12 +38,22 @@ class ClienteItem extends StatelessWidget {
           width: 110,
           alignment: Alignment.center,
           margin: const EdgeInsets.all(10),
-          child: Image.network(
-            (model!.foto == null || model!.foto == "")
-                ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                : model!.foto!,
-            height: 80,
-            fit: BoxFit.scaleDown,
+          child: GestureDetector(
+            child: Image.network(
+              (model!.foto == null || model!.foto == "")
+                  ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
+                  : model!.foto!,
+              height: 80,
+              fit: BoxFit.scaleDown,
+            ),
+            onTap: () {
+              //individual data view client
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ClienteIndividualData(model!)),
+              );
+            },
           ),
         ),
         Padding(
@@ -76,18 +86,7 @@ class ClienteItem extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.mail_outlined,
-                    size: 20,
-                  ),
-                  Text(
-                    " ${model!.email}",
-                  ),
-                ],
-              ),
+              phoneOrEmail(model),
               const SizedBox(
                 height: 10,
               ),
@@ -127,6 +126,37 @@ class ClienteItem extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  phoneOrEmail(model) {
+    var phone = model.phone ?? "";
+    if (phone != "") {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.phone_android,
+            size: 20,
+          ),
+          Text(
+            " ${model.phone}",
+          ),
+        ],
+      );
+    } else {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.mail,
+            size: 20,
+          ),
+          Text(
+            " ${model!.email}",
+          ),
+        ],
+      );
+    }
   }
 
   void _showAlert(BuildContext context) {

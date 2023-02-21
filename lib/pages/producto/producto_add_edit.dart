@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'package:appflutter/pages/producto/pick_picker.dart';
+import 'package:appflutter/pages/producto/producto_form_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:appflutter/models/producto_model.dart';
 import 'package:appflutter/services/api_producto.dart';
@@ -7,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
-
 import '../../config.dart';
 import '../../menu.dart';
 
@@ -69,81 +69,14 @@ class _ProductoAddEditState extends State<ProductoAddEdit> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 10,
-              top: 10,
-            ),
-            child: FormHelper.inputFieldWidget(
-              context,
-              //const Icon(Icons.person),
-              "ProductoName",
-              "Producto Name",
-              (onValidateVal) {
-                if (onValidateVal == null || onValidateVal.isEmpty) {
-                  return 'El nombre del producto no puede ser vacio o nulo';
-                }
-
-                return null;
-              },
-              (onSavedVal) => {
-                productoModel!.productoName = onSavedVal,
-              },
-              initialValue: productoModel!.productoName ?? "",
-              obscureText: false,
-              borderFocusColor: Colors.black,
-              borderColor: Colors.black,
-              textColor: Colors.black,
-              hintColor: Colors.black.withOpacity(0.7),
-              borderRadius: 10,
-              showPrefixIcon: false,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 10,
-              top: 10,
-            ),
-            child: FormHelper.inputFieldWidget(
-              context,
-              //const Icon(Icons.person),
-              "ProductoPrice",
-              "Producto Price",
-              (onValidateVal) {
-                if (onValidateVal == null || onValidateVal.isEmpty) {
-                  return 'El precio no puede ser vacio o null ';
-                }
-                if (double.tryParse(onValidateVal) == null) {
-                  return 'Insertar un numero valido con dos decimales ';
-                }
-
-                return null;
-              },
-              (onSavedVal) => {
-                //productModel!.productoPrice = int.parse(onSavedVal),
-                productoModel!.productoPrice = onSavedVal,
-              },
-              initialValue: productoModel!.productoPrice == null
-                  ? ""
-                  : productoModel!.productoPrice.toString(),
-              obscureText: false,
-              borderFocusColor: Colors.black,
-              borderColor: Colors.black,
-              textColor: Colors.black,
-              hintColor: Colors.black.withOpacity(0.7),
-              borderRadius: 10,
-              showPrefixIcon: false,
-              suffixIcon: const Icon(Icons.monetization_on),
-            ),
-          ),
+        children: [
+          formFields(context, productoModel),
           picPicker(
             isImageSelected,
             productoModel!.productoImage ?? "",
             (file) => {
               setState(
                 () {
-                  //model.productPic = file.path;
                   productoModel!.productoImage = file.path;
                   isImageSelected = true;
                 },
@@ -158,8 +91,6 @@ class _ProductoAddEditState extends State<ProductoAddEdit> {
               "Save",
               () {
                 if (validateAndSave()) {
-                  //print(productoModel!.toJson());
-
                   setState(() {
                     isApiCallProcess = true;
                   });
@@ -219,76 +150,6 @@ class _ProductoAddEditState extends State<ProductoAddEdit> {
       return true;
     }
     return false;
-  }
-
-  static Widget picPicker(
-    bool isImageSelected,
-    String fileName,
-    Function onFilePicked,
-  ) {
-    Future<XFile?> imageFile;
-    ImagePicker picker = ImagePicker();
-
-    return Column(
-      children: [
-        fileName.isNotEmpty
-            ? isImageSelected
-                ? Image.file(
-                    File(fileName),
-                    width: 300,
-                    height: 300,
-                  )
-                : SizedBox(
-                    child: Image.network(
-                      fileName,
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.scaleDown,
-                    ),
-                  )
-            : SizedBox(
-                child: Image.network(
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
-                  width: 200,
-                  height: 200,
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 35.0,
-              width: 35.0,
-              child: IconButton(
-                padding: const EdgeInsets.all(0),
-                icon: const Icon(Icons.image, size: 35.0),
-                onPressed: () {
-                  imageFile = picker.pickImage(source: ImageSource.gallery);
-                  imageFile.then((file) async {
-                    onFilePicked(file);
-                  });
-                },
-              ),
-            ),
-            SizedBox(
-              height: 35.0,
-              width: 35.0,
-              child: IconButton(
-                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                icon: const Icon(Icons.camera, size: 35.0),
-                onPressed: () {
-                  imageFile = picker.pickImage(source: ImageSource.camera);
-                  imageFile.then((file) async {
-                    onFilePicked(file);
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
   }
 
   isValidURL(url) {

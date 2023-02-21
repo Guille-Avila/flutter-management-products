@@ -13,6 +13,7 @@ class ClienteModel {
   late String? apellido;
   late String? foto;
   late String? email;
+  late String? phone;
 
   ClienteModel({
     this.id,
@@ -20,6 +21,7 @@ class ClienteModel {
     this.apellido,
     this.foto,
     this.email,
+    this.phone,
   });
 
   factory ClienteModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class ClienteModel {
       apellido: json['apellido'],
       foto: json['foto'],
       email: json['email'],
+      phone: json['phone'],
     );
   }
 
@@ -39,6 +42,7 @@ class ClienteModel {
     data['apellido'] = apellido;
     data['foto'] = foto;
     data['email'] = email;
+    data['phone'] = phone;
     return data;
   }
 }

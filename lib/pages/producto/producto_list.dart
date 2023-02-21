@@ -52,54 +52,33 @@ class _ProductosListState extends State<ProductosList> {
 
   Widget productoList(productos) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                // ignore: sort_child_properties_last
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/add-producto',
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 30),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50))),
-                      child: const Text(
-                        'Add Producto',
-                        style: TextStyle(fontSize: 15, color: Colors.black),
-                      )),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/home',
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.lightBlueAccent,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 30),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50))),
-                    child: const Text(
-                      'Menu',
-                      style: TextStyle(fontSize: 15, color: Colors.black),
-                    ),
-                  ),
-                ],
-                mainAxisAlignment: MainAxisAlignment.center,
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/add-producto',
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 30),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50))),
+                child: const Text(
+                  'Add Product',
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
+              ),
+              const SizedBox(
+                height: 6,
               ),
               ListView.builder(
                 shrinkWrap: true,

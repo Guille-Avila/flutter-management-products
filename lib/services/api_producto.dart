@@ -45,8 +45,10 @@ class APIProducto {
 
     var request = http.MultipartRequest(requestMethod, url);
     request.fields["productoName"] = model.productoName!;
+    request.fields["productoDescription"] = model.productoDescription!;
     request.fields["productoPrice"] =
         double.parse(model.productoPrice!).toStringAsFixed(2);
+    request.fields["amount"] = model.amount.toString();
 
     if (model.productoImage != null && isFileSelected) {
       http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
@@ -78,7 +80,7 @@ class APIProducto {
       headers: requestHeaders,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 204) {
       return true;
     } else {
       return false;

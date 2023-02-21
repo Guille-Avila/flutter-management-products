@@ -1,3 +1,4 @@
+import 'package:appflutter/pages/producto/product_individual_data.dart';
 import 'package:flutter/material.dart';
 import '../../models/producto_model.dart';
 
@@ -39,15 +40,25 @@ class ProductoItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 120,
+          width: 110,
           alignment: Alignment.center,
           margin: const EdgeInsets.all(10),
-          child: Image.network(
-            (model!.productoImage == null || model!.productoImage == "")
-                ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
-                : model!.productoImage!,
-            height: 70,
-            fit: BoxFit.scaleDown,
+          child: GestureDetector(
+            child: Image.network(
+              (model!.productoImage == null || model!.productoImage == "")
+                  ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
+                  : model!.productoImage!,
+              height: 80,
+              fit: BoxFit.scaleDown,
+            ),
+            onTap: () {
+              //individual data view client
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProductIndividualData(model!)),
+              );
+            },
           ),
         ),
         Padding(
@@ -56,12 +67,25 @@ class ProductoItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                model!.productoName!,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+              const SizedBox(
+                height: 5,
+              ),
+              GestureDetector(
+                child: Text(
+                  model!.productoName!,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                onTap: () {
+                  //individual data view client
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProductIndividualData(model!)),
+                  );
+                },
               ),
               const SizedBox(
                 height: 10,
@@ -88,6 +112,9 @@ class ProductoItem extends StatelessWidget {
                           },
                         );
                       },
+                    ),
+                    const SizedBox(
+                      width: 15,
                     ),
                     GestureDetector(
                       child: const Icon(

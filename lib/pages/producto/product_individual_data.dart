@@ -1,34 +1,41 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:appflutter/models/producto_model.dart';
+import 'package:appflutter/services/api_producto.dart';
 import 'package:flutter/material.dart';
-import 'package:appflutter/models/cliente_model.dart';
-import '../../menu.dart';
-import '../../services/api_cliente.dart';
 
-class ClienteIndividualData extends StatefulWidget {
-  ClienteModel model;
-  ClienteIndividualData(
+import '../../menu.dart';
+
+class ProductIndividualData extends StatefulWidget {
+  ProductoModel model;
+  ProductIndividualData(
     this.model, {
     Key? key,
   }) : super(key: key);
 
   @override
-  State<ClienteIndividualData> createState() => _ClienteIndividualDataState();
+  State<ProductIndividualData> createState() => _ProductIndividualDataState();
 }
 
-class _ClienteIndividualDataState extends State<ClienteIndividualData> {
-  ClienteModel? costumer;
+class _ProductIndividualDataState extends State<ProductIndividualData> {
+  ProductoModel? product;
 
   @override
   void initState() {
     super.initState();
-    costumer = widget.model;
+    product = widget.model;
   }
 
   @override
   Widget build(BuildContext context) {
+    String price = double.parse(product!.productoPrice!)
+        .toStringAsFixed(0)
+        .replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (Match match) => '${match[1]},',
+        );
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Costumer"),
+        title: const Text("Product"),
         centerTitle: true,
       ),
       body: Center(
@@ -36,7 +43,7 @@ class _ClienteIndividualDataState extends State<ClienteIndividualData> {
           width: MediaQuery.of(context).size.width * 0.90,
           height: MediaQuery.of(context).size.width * 1.5,
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 255, 255, 255),
+            color: const Color.fromARGB(255, 255, 255, 255),
             borderRadius: BorderRadius.circular(20),
             boxShadow: const [
               BoxShadow(
@@ -55,52 +62,39 @@ class _ClienteIndividualDataState extends State<ClienteIndividualData> {
                 alignment: Alignment.center,
                 margin: const EdgeInsets.all(10),
                 child: Image.network(
-                  costumer?.foto ??
+                  product?.productoImage ??
                       "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
                   height: 200,
                   fit: BoxFit.scaleDown,
                 ),
               ),
               Text(
-                "${costumer!.nombre?.toUpperCase()} ${costumer!.apellido?.toUpperCase()}",
+                "${product!.productoName?.toUpperCase()}",
                 style: const TextStyle(fontSize: 30),
               ),
               const SizedBox(
-                height: 12,
+                height: 8,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.phone_android,
-                    size: 22,
-                  ),
-                  Text(
-                    costumer!.phone != ""
-                        ? " ${costumer!.phone}"
-                        : " No Register",
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ],
+              Text(
+                "${product!.productoDescription}",
+                style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(
-                height: 12,
+                height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.mail_outline,
-                    size: 24,
-                  ),
-                  Text(
-                    " ${costumer!.email}",
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ],
+              Text(
+                "\$ $price",
+                style: const TextStyle(fontSize: 20),
               ),
               const SizedBox(
-                height: 18,
+                height: 8,
+              ),
+              Text(
+                "${product!.amount} ${product!.amount! > 1 ? 'Unidades' : 'Unidad'}",
+                style: const TextStyle(fontSize: 18),
+              ),
+              const SizedBox(
+                height: 22,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -114,9 +108,9 @@ class _ClienteIndividualDataState extends State<ClienteIndividualData> {
                     ),
                     onPressed: () {
                       Navigator.of(context).pushNamed(
-                        '/edit-cliente',
+                        '/edit-producto',
                         arguments: {
-                          'model': costumer,
+                          'model': product,
                         },
                       );
                     },
@@ -153,7 +147,7 @@ class _ClienteIndividualDataState extends State<ClienteIndividualData> {
                       Navigator.pop(context);
                     },
                     child: const Text(
-                      "Costumers",
+                      "Products",
                       style: TextStyle(fontSize: 16),
                     )),
               )
@@ -169,8 +163,8 @@ class _ClienteIndividualDataState extends State<ClienteIndividualData> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Delete costumer"),
-          content: Text("Are you sure to delete ${costumer!.nombre}?"),
+          title: const Text("Delete product"),
+          content: Text("Are you sure to delete ${product!.productoName}?"),
           actions: [
             TextButton(
               onPressed: () {
@@ -180,14 +174,14 @@ class _ClienteIndividualDataState extends State<ClienteIndividualData> {
             ),
             TextButton(
               onPressed: () async {
-                final delete = await APICliente.deleteCliente(costumer!.id);
+                final delete = await APIProducto.deleteProducto(product!.id);
 
                 if (delete) {
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (context) => Menu(
-                        menuValue: 1,
+                        menuValue: 2,
                       ),
                     ),
                     (route) => false,

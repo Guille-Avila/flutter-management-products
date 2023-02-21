@@ -13,6 +13,7 @@ class ProductoModel {
   late String? productoDescription;
   late String? productoPrice;
   late String? productoImage;
+  late int? amount;
 
   ProductoModel({
     this.id,
@@ -20,6 +21,7 @@ class ProductoModel {
     this.productoDescription,
     this.productoPrice,
     this.productoImage,
+    this.amount,
   });
 
   factory ProductoModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class ProductoModel {
       productoDescription: json['productoDescription'],
       productoPrice: json['productoPrice'],
       productoImage: json['productoImage'],
+      amount: json['amount'],
     );
   }
 
@@ -39,6 +42,7 @@ class ProductoModel {
     data['productoDescription'] = productoDescription;
     data['productoPrice'] = productoPrice;
     data['productoImage'] = productoImage;
+    data['amount'] = amount;
     return data;
   }
 }

@@ -56,7 +56,6 @@ class _ClientesListState extends State<ClientesList> {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
