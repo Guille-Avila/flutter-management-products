@@ -8,8 +8,7 @@ class ProductosList extends StatefulWidget {
   const ProductosList({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
-  _ProductosListState createState() => _ProductosListState();
+  State<ProductosList> createState() => _ProductosListState();
 }
 
 class _ProductosListState extends State<ProductosList> {

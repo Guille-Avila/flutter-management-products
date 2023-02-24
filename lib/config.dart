@@ -8,4 +8,6 @@ class Config {
   static const obtenertokenAPI = "api/api-token-auth/";
   static const emailPasswordAPI = "api/email-password/";
   static const resetPasswordAPI = "api/reset-password/";
+  static const saleAPI = "api/sale/";
+  static const detailSaleAPI = "api/detail_sale/";
 }

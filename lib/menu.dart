@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:appflutter/pages/sales/sales_list.dart';
 import 'package:flutter/material.dart';
 import 'package:appflutter/pages/cliente/cliente_list.dart';
 import 'package:appflutter/pages/producto/producto_list.dart';
@@ -23,6 +24,8 @@ class MenuState extends State<Menu> {
         return const ClientesList();
       case 2:
         return const ProductosList();
+      case 3:
+        return const SaleList();
     }
   }
 
@@ -34,6 +37,8 @@ class MenuState extends State<Menu> {
         return const Text("Costumers");
       case 2:
         return const Text("Products");
+      case 3:
+        return const Text("Sales");
     }
   }
 

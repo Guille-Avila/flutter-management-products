@@ -1,19 +1,17 @@
+import 'package:appflutter/models/sales_model.dart';
+import 'package:appflutter/pages/sales/sale_item.dart';
+import 'package:appflutter/services/api_sale.dart';
 import 'package:flutter/material.dart';
-import 'package:appflutter/models/cliente_model.dart';
-import 'package:appflutter/pages/cliente/cliente_item.dart';
-import 'package:appflutter/services/api_cliente.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
-import 'cliente_add_edit.dart';
 
-class ClientesList extends StatefulWidget {
-  const ClientesList({Key? key}) : super(key: key);
+class SaleList extends StatefulWidget {
+  const SaleList({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _ClientesListState createState() => _ClientesListState();
+  State<SaleList> createState() => _SaleListState();
 }
 
-class _ClientesListState extends State<ClientesList> {
+class _SaleListState extends State<SaleList> {
   bool isApiCallProcess = false;
   @override
   void initState() {
@@ -28,20 +26,20 @@ class _ClientesListState extends State<ClientesList> {
         inAsyncCall: isApiCallProcess,
         opacity: 0.3,
         key: UniqueKey(),
-        child: loadClientes(),
+        child: loadSales(),
       ),
     );
   }
 
-  Widget loadClientes() {
+  Widget loadSales() {
     return FutureBuilder(
-      future: APICliente.getClientes(),
+      future: APISale.getSales(),
       builder: (
         BuildContext context,
-        AsyncSnapshot<List<ClienteModel>?> model,
+        AsyncSnapshot<List<SaleModel>?> model,
       ) {
         if (model.hasData) {
-          return clienteList(model.data);
+          return salesList(model.data);
         }
 
         return const Center(
@@ -51,7 +49,7 @@ class _ClientesListState extends State<ClientesList> {
     );
   }
 
-  Widget clienteList(clientes) {
+  Widget salesList(sales) {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Column(
@@ -62,20 +60,21 @@ class _ClientesListState extends State<ClientesList> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ClienteAddEdit()),
-                  );
+                  // Navigator.pushNamed(
+                  //   context,
+                  //   '/add-producto',
+                  // );
                 },
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.amber,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 30),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50))),
+                  backgroundColor: Colors.amber,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
                 child: const Text(
-                  'Add Client',
+                  'Add Sale',
                   style: TextStyle(fontSize: 15, color: Colors.black),
                 ),
               ),
@@ -86,16 +85,16 @@ class _ClientesListState extends State<ClientesList> {
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
                 scrollDirection: Axis.vertical,
-                itemCount: clientes.length,
+                itemCount: sales.length,
                 itemBuilder: (context, index) {
-                  return ClienteItem(
-                    model: clientes[index],
-                    onDelete: (ClienteModel model) {
+                  return SaleItem(
+                    model: sales[index],
+                    onDelete: (SaleModel model) {
                       setState(() {
                         isApiCallProcess = true;
                       });
 
-                      APICliente.deleteCliente(model.id).then(
+                      APISale.deleteSale(model.id).then(
                         (response) {
                           setState(() {
                             isApiCallProcess = false;
